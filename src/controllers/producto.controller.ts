@@ -31,9 +31,19 @@ export const deleteProduct = (req: Request, res: Response) => {
 // Añadir producto
 export const addProduct = (req: Request, res: Response) => {
     const { body } = req;
-    console.log(body);
     res.json({
         msg: 'añade Producto',
+        body
+    });
+};
+
+// Modificar producto
+export const updateProduct = (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { body } = req;
+    res.json({
+        msg: 'modificar Producto',
+        id,
         body
     });
 };

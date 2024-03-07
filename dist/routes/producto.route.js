@@ -7,4 +7,5 @@ router.get('/', producto_controller_1.getProducts); //devuelve todos los product
 router.get('/:id', producto_controller_1.getProduct); //devuelve producto por id
 router.delete('/:id', producto_controller_1.deleteProduct); // elimina producto por id
 router.post('/', producto_controller_1.addProduct); // añade producto
+router.put('/:id', producto_controller_1.updateProduct);
 exports.default = router;
