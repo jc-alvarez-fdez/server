@@ -27,3 +27,13 @@ export const deleteProduct = (req: Request, res: Response) => {
     });
 };
 
+
+// Añadir producto
+export const addProduct = (req: Request, res: Response) => {
+    const { body } = req;
+    console.log(body);
+    res.json({
+        msg: 'añade Producto',
+        body
+    });
+};

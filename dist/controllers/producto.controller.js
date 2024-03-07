@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteProduct = exports.getProduct = exports.getProducts = void 0;
+exports.addProduct = exports.deleteProduct = exports.getProduct = exports.getProducts = void 0;
 // Muestra todos los productos
 const getProducts = (req, res) => {
     res.json({
@@ -26,3 +26,13 @@ const deleteProduct = (req, res) => {
     });
 };
 exports.deleteProduct = deleteProduct;
+// Añadir producto
+const addProduct = (req, res) => {
+    const { body } = req;
+    console.log(body);
+    res.json({
+        msg: 'añade Producto',
+        body
+    });
+};
+exports.addProduct = addProduct;
