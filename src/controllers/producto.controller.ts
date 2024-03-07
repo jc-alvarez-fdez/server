@@ -1,31 +1,45 @@
 import {Request, Response} from 'express';
+import Producto from '../models/producto.model';
 
 
 // Muestra todos los productos
-export const getProducts = (req: Request, res: Response ) => {
-    res.json({
-        msg: 'get Products'
-    })
+export const getProducts = async (req: Request, res: Response ) => {   
+    const listProductos = await Producto.findAll();
+    res.json(listProductos);
 }
 
 // Muestra producto por id
-export const getProduct = (req: Request, res: Response) => {
+export const getProduct = async (req: Request, res: Response) => {
     const { id } = req.params;
-    res.json({
-        msg: 'get Producto determinado por su id',
-        id
-    });
-};
+    const producto = await Producto.findByPk(id);
+
+    if (producto) {
+        res.json(producto);
+    } else {
+        res.status(404).json({
+            msg:`No existe un producto con el id ${id}`
+        })
+    };
+}
 
 
 // Elimina producto por id
-export const deleteProduct = (req: Request, res: Response) => {
+export const deleteProduct = async (req: Request, res: Response) => {
     const { id } = req.params;
-    res.json({
-        msg: 'delete Producto determinado por su id',
-        id
-    });
-};
+    const producto = await Producto.findByPk(id);
+    if (!producto) {
+        res.status(404).json({
+        msg:`No existe un producto con el id ${id}`
+        })
+    } else {
+        await producto.destroy();
+        res.json({
+            msg: `El producto se ha eliminado`
+        })
+        
+    }
+ }
+
 
 
 // Añadir producto
@@ -35,7 +49,7 @@ export const addProduct = (req: Request, res: Response) => {
         msg: 'añade Producto',
         body
     });
-};
+}
 
 // Modificar producto
 export const updateProduct = (req: Request, res: Response) => {
@@ -46,4 +60,4 @@ export const updateProduct = (req: Request, res: Response) => {
         id,
         body
     });
-};
+}
