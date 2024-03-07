@@ -1,5 +1,7 @@
 import express, { Application, Request, Response } from 'express';
-import  routesProducto from '../routes/producto.route'
+import  routesProducto from '../routes/producto.route';
+import db from '../db/connection';
+
 
 class Server {
 
@@ -12,6 +14,7 @@ class Server {
         this.listen();
         this.midlewares();
         this.routes();
+        this.dbConnect();
 
     }
 
@@ -36,6 +39,12 @@ class Server {
             this.app.use(express.json());
         }
     }
+
+     dbConnect() {
+
+        await db.authenticate();
+        console.log('Base de datos conectada')
+     }
 
  
 export default Server;

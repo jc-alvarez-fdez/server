@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const producto_route_1 = __importDefault(require("../routes/producto.route"));
+const connection_1 = __importDefault(require("../db/connection"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -12,6 +13,7 @@ class Server {
         this.listen();
         this.midlewares();
         this.routes();
+        this.dbConnect();
     }
     listen() {
         this.app.listen(this.port, () => {
@@ -30,5 +32,10 @@ class Server {
         //Parseamos el body
         this.app.use(express_1.default.json());
     }
+}
+dbConnect();
+{
+    await connection_1.default.authenticate();
+    console.log('Base de datos conectada');
 }
 exports.default = Server;
