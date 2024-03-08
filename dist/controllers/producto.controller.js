@@ -53,13 +53,26 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.deleteProduct = deleteProduct;
 // Añadir producto
-const addProduct = (req, res) => {
+const addProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
+    try {
+        yield producto_model_1.default.create(body);
+        res.json({
+            msg: 'El producto se ha añadido',
+            body
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Ha ocurrido un error, póngase en contacto con soporte',
+        });
+    }
     res.json({
-        msg: 'añade Producto',
+        msg: 'El producto se ha añadido',
         body
     });
-};
+});
 exports.addProduct = addProduct;
 // Modificar producto
 const updateProduct = (req, res) => {

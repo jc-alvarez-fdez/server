@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import e, {Request, Response} from 'express';
 import Producto from '../models/producto.model';
 
 
@@ -43,10 +43,27 @@ export const deleteProduct = async (req: Request, res: Response) => {
 
 
 // Añadir producto
-export const addProduct = (req: Request, res: Response) => {
+export const addProduct = async (req: Request, res: Response) => {
     const { body } = req;
+    try {
+        await Producto.create(body);
+
+        res.json({
+            msg: 'El producto se ha añadido',
+            body
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Ha ocurrido un error, póngase en contacto con soporte',
+        });
+    }
+
+    
+
     res.json({
-        msg: 'añade Producto',
+        msg: 'El producto se ha añadido',
         body
     });
 }
