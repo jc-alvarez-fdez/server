@@ -1,9 +1,9 @@
-import e, {Request, Response} from 'express';
+import e, { Request, Response } from 'express';
 import Producto from '../models/producto.model';
 
 
 // Muestra todos los productos
-export const getProducts = async (req: Request, res: Response ) => {   
+export const getProducts = async (req: Request, res: Response) => {
     const listProductos = await Producto.findAll();
     res.json(listProductos);
 }
@@ -17,7 +17,7 @@ export const getProduct = async (req: Request, res: Response) => {
         res.json(producto);
     } else {
         res.status(404).json({
-            msg:`No existe un producto con el id ${id}`
+            msg: `No existe un producto con el id ${id}`
         })
     };
 }
@@ -29,16 +29,16 @@ export const deleteProduct = async (req: Request, res: Response) => {
     const producto = await Producto.findByPk(id);
     if (!producto) {
         res.status(404).json({
-        msg:`No existe un producto con el id ${id}`
+            msg: `No existe un producto con el id ${id}`
         })
     } else {
         await producto.destroy();
         res.json({
             msg: `El producto se ha eliminado`
         })
-        
+
     }
- }
+}
 
 
 
@@ -59,22 +59,32 @@ export const addProduct = async (req: Request, res: Response) => {
             msg: 'Ha ocurrido un error, póngase en contacto con soporte',
         });
     }
-
-    
-
-    res.json({
-        msg: 'El producto se ha añadido',
-        body
-    });
-}
+}    
 
 // Modificar producto
-export const updateProduct = (req: Request, res: Response) => {
+export const updateProduct = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { body } = req;
-    res.json({
-        msg: 'modificar Producto',
-        id,
-        body
-    });
+
+    try {
+        const producto = await Producto.findByPk(id);
+
+        if (producto) {
+            await producto.update(body);
+            res.json({
+                msg: `El producto se ha actualizado`
+            })
+        } else {
+            res.status(404).json({
+                msg: `No existe un producto con el id ${id}`
+            })
+        } 
+    } 
+    catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Ha ocurrido un error, póngase en contacto con soporte',
+        });
+    }
 }
+

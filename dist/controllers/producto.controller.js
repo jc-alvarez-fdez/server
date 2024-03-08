@@ -68,20 +68,31 @@ const addProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             msg: 'Ha ocurrido un error, póngase en contacto con soporte',
         });
     }
-    res.json({
-        msg: 'El producto se ha añadido',
-        body
-    });
 });
 exports.addProduct = addProduct;
 // Modificar producto
-const updateProduct = (req, res) => {
+const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const { body } = req;
-    res.json({
-        msg: 'modificar Producto',
-        id,
-        body
-    });
-};
+    try {
+        const producto = yield producto_model_1.default.findByPk(id);
+        if (producto) {
+            yield producto.update(body);
+            res.json({
+                msg: `El producto se ha actualizado`
+            });
+        }
+        else {
+            res.status(404).json({
+                msg: `No existe un producto con el id ${id}`
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Ha ocurrido un error, póngase en contacto con soporte',
+        });
+    }
+});
 exports.updateProduct = updateProduct;
